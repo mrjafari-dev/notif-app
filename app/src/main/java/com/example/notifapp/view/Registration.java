@@ -49,7 +49,7 @@ public class Registration extends AppCompatActivity {
                 password = String.valueOf(textInputEditTextPassword.getText());
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://192.168.135.230/NotificationApp_Api/register.php";
+                String url ="http://192.168.80.182/NotificationApp_Api/register.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

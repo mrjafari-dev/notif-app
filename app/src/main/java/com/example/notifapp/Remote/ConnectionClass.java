@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConnectionClass {
-    private static final String BASE_PATH="http://192.168.135.230/NotificationApp_Api/";
+    private static final String BASE_PATH="http://192.168.80.182/NotificationApp_Api/";
     private static Retrofit getRetrofitInstace(){
         Gson gson= new GsonBuilder().setLenient().create();
         OkHttpClient okHttpClient=new OkHttpClient().newBuilder()

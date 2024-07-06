@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity {
 
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.135.230/NotificationApp_Api/login.php";
+                String url = "http://192.168.80.182/NotificationApp_Api/login.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

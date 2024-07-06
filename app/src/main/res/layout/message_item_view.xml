@@ -11,11 +11,13 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/itemView"
             android:layout_height="match_parent">
             <LinearLayout
                 android:id="@+id/statusLayout"
                 android:layout_width="3dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

@@ -64,7 +64,7 @@ public class Messages extends AppCompatActivity {
     }
     private void fetchMessages() {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "http://192.168.135.230/NotificationApp_Api/Messages.php";
+        String url = "http://192.168.80.182/NotificationApp_Api/Messages.php";
         String userId = sharedPreference.getString("id", "");
 
         Log.i("cfdsfdsfsf",userId);

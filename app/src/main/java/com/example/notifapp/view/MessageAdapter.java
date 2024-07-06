@@ -1,5 +1,6 @@
 package com.example.notifapp.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
 
         holder.message.setText(messageModel.getNachricht());
         holder.time.setText(messageModel.getTime());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(holder.itemView.getContext(),MessageDetailActivity.class);
+                i.putExtra("userName",messageModel.getBenutzername());
+                i.putExtra("message",messageModel.getNachricht());
+                i.putExtra("time",messageModel.getTime());
+                i.putExtra("severity",messageModel.getSeverity());
+                holder.itemView.getContext().startActivity(i);
+            }
+        });
         switch (messageModel.getSeverity()) {
             case "OK":
                 holder.statusLayout.setBackgroundColor(Color.GREEN);
@@ -69,6 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
             statusLayout = itemView.findViewById(R.id.statusLayout);
+
 
 
         }

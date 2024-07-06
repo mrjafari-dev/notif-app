@@ -26,13 +26,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MessageViewActivity extends AppCompatActivity {
-    SharedPreferences sharedPreference;
     TextView user,message,message_time,severity,read_time;
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
     private ArrayList<MessageModel> messageList;
     private NotificationHelper notificationHelper;
     MessageActivityViewModel messageActivityViewModel;
+    Timer timer ;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,19 +54,10 @@ public class MessageViewActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        sharedPreference = getSharedPreferences("MyAppName", MODE_PRIVATE);
         messageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(messageList);
         recyclerView.setAdapter(messageAdapter);
-        String userId = sharedPreference.getString("id", "");
-        messageActivityViewModel.getMessage(userId);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                messageActivityViewModel.getMessage(userId);
-            }
-        },0,5000);
+        messageActivityViewModel.getMessage(messageActivityViewModel.getUserId(this));
         messageActivityViewModel.messageResponseMutableLiveData.observe(this, new Observer<MessageResponse>() {
             @Override
             public void onChanged(MessageResponse messageResponse) {
@@ -88,5 +79,23 @@ public class MessageViewActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        timer =new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                messageActivityViewModel.getMessage(messageActivityViewModel.getUserId(MessageViewActivity.this));
+            }
+        },0,5000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
 
 }
