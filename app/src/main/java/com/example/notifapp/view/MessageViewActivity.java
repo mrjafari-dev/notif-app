@@ -76,9 +76,8 @@ public class MessageViewActivity extends AppCompatActivity {
                         messageActivityViewModel.deleteMessagesFromDb(MessageViewActivity.this,messageList);
                         messageList.removeAll(messageList);
 
-                        for (MessageModel item:
-                                messageResponse.getNachrichten()) {
-                            messageList.add(item);
+                        for (int i = messageResponse.getNachrichten().size() - 1; i >= 0; i--) {
+                            messageList.add(messageResponse.getNachrichten().get(i));
                         }
                         messageActivityViewModel.insertMessagesToDb(MessageViewActivity.this,messageList);
                         messageAdapter.notifyDataSetChanged();
