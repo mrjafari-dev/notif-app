@@ -18,7 +18,7 @@ public class MessageDbRepository {
         messageDao.insert(messageModels);  // Insert if not exists
     }
 
-    public void deleteMessages(ArrayList<MessageModel>messageModels){
+    public void deleteMessages(){
         messageDao.deleteAll();
     }
     public List<MessageModel> getMessage(){

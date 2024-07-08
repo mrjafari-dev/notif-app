@@ -1,8 +1,12 @@
 package com.example.notifapp.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +35,8 @@ public class MessageViewActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
     private ArrayList<MessageModel> messageList;
     private NotificationHelper notificationHelper;
+    private LinearLayout noMessageView;
+    private Button logOutButton;
     MessageActivityViewModel messageActivityViewModel;
     Timer timer ;
 
@@ -53,27 +59,45 @@ public class MessageViewActivity extends AppCompatActivity {
         notificationHelper.startRepeatingAlarm();
 
         recyclerView = findViewById(R.id.recycler_view);
+        noMessageView = findViewById(R.id.noMessageView);
+        logOutButton = findViewById(R.id.LogOutButton);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         messageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(messageList);
         recyclerView.setAdapter(messageAdapter);
         messageActivityViewModel.getMessage(messageActivityViewModel.getUserId(this));
+
         messageActivityViewModel.messageResponseMutableLiveData.observe(this, new Observer<MessageResponse>() {
             @Override
             public void onChanged(MessageResponse messageResponse) {
-                if (messageList.size() < messageResponse.getNachrichten().size()){
-                    messageActivityViewModel.deleteMessagesFromDb(MessageViewActivity.this,messageList);
-                    messageList.removeAll(messageList);
+                if (messageResponse.getNachrichten() != null){
+                    noMessageView.setVisibility(View.GONE);
+                    if (messageList.size() < messageResponse.getNachrichten().size()){
+                        messageActivityViewModel.deleteMessagesFromDb(MessageViewActivity.this,messageList);
+                        messageList.removeAll(messageList);
 
-                    for (MessageModel item:
-                            messageResponse.getNachrichten()) {
-                        messageList.add(item);
+                        for (MessageModel item:
+                                messageResponse.getNachrichten()) {
+                            messageList.add(item);
+                        }
+                        messageActivityViewModel.insertMessagesToDb(MessageViewActivity.this,messageList);
+                        messageAdapter.notifyDataSetChanged();
+
                     }
-                    messageActivityViewModel.insertMessagesToDb(MessageViewActivity.this,messageList);
-                    messageAdapter.notifyDataSetChanged();
-
+                }
+                else {
+                    noMessageView.setVisibility(View.VISIBLE);
                 }
 
+
+            }
+        });
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messageActivityViewModel.logOut(MessageViewActivity.this);
+                startActivity(new Intent(MessageViewActivity.this, Login.class));
             }
         });
 

@@ -35,18 +35,29 @@ public class MessageActivityViewModel extends ViewModel implements UserRepositor
     }
     public void deleteMessagesFromDb(Context context, ArrayList<MessageModel> messageModels){
         messageDbRepository=new MessageDbRepository(context);
-        messageDbRepository.deleteMessages(messageModels);
+        messageDbRepository.deleteMessages();
 
     }
 
     @Override
     public void MessageSuccess(MessageResponse messageResponse) {
     messageResponseMutableLiveData.setValue(messageResponse);
-        Log.i("1234567890",messageResponse.getNachrichten().get(0).getNachricht()+"sdfgsdgv");
     }
 
     public String getUserId(Context context){
         sharedPreference = context.getSharedPreferences("MyAppName", MODE_PRIVATE);
         return sharedPreference.getString("id", "");
+    }
+    public  void  logOut(Context context){
+        try {
+            messageDbRepository.deleteMessages();
+        }catch (Exception e){
+
+        }
+        sharedPreference = context.getSharedPreferences("MyAppName", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.clear();
+        editor.apply();
+
     }
 }

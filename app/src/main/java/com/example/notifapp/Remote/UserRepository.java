@@ -25,7 +25,6 @@ public class UserRepository {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 userRepositoryImp.MessageSuccess(response.body());
-                Log.i("1234567890",response.body().getNachrichten().get(0).getNachricht());
 
             }
             @Override

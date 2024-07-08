@@ -2,12 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,12 +42,13 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_weight="0.7"
-                    android:layout_height="0dp">
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/time"
                         android:layout_marginStart="15dp"
                         android:textSize="10sp"
+                        android:layout_marginTop="15dp"
                         android:text="sample"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -54,5 +59,7 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+</LinearLayout>
+
 
 </LinearLayout>
