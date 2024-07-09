@@ -2,10 +2,13 @@ package com.example.notifapp.view;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,10 +38,27 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
     public void onBindViewHolder(@NonNull MessageAdapterViewHolder holder, int position) {
         MessageModel messageModel  =arrayList.get(position);
         Log.i("cfdsfdsfsf",messageModel.getBenutzername()+"dfvgdg");
-
+        final Boolean[] exp = {true};
         holder.message.setText(messageModel.getNachricht());
         holder.time.setText(messageModel.getTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exp[0] = !exp[0];
+                if (exp[0]){
+                    holder.message.setMaxLines(2);
+                    holder.dropDown.setRotation(-90);
+                    holder.detail.setVisibility(View.GONE);
+                }else {
+                    holder.message.setMaxLines(Integer.MAX_VALUE);
+                    holder.dropDown.setRotation(90);
+                    holder.detail.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+        });
+        holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(holder.itemView.getContext(),MessageDetailActivity.class);
@@ -49,6 +69,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
                 holder.itemView.getContext().startActivity(i);
             }
         });
+        if (exp[0]){
+            holder.message.setMaxLines(2);
+            holder.dropDown.setRotation(-90);
+            holder.detail.setVisibility(View.GONE);
+        }else {
+            holder.message.setMaxLines(Integer.MAX_VALUE);
+            holder.dropDown.setRotation(90);
+            holder.detail.setVisibility(View.VISIBLE);
+
+        }
         switch (messageModel.getSeverity()) {
             case "OK":
                 holder.statusLayout.setBackgroundColor(Color.GREEN);
@@ -75,14 +105,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageA
         public TextView message;
         public TextView time;
         public LinearLayout statusLayout;
+        public ImageView dropDown;
+        public Button detail;
 
         public MessageAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
             statusLayout = itemView.findViewById(R.id.statusLayout);
-
-
+            dropDown = itemView.findViewById(R.id.dropdownIcon);
+            detail = itemView.findViewById(R.id.detail);
 
         }
     }
